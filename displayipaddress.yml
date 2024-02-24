@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  vars:
+    instance_name: Ansible Server
+    password: dev123
+    domain: facebook.com
+  tasks:
+    - name: Mr Server tell me your name
+      debug:
+        msg: My name is "{{instance_name}}"
+    - name: are you ok to reveal your password? dont tell your dad
+      debug:
+        msg: "{{password}}"
+    - name: get ip address
+      shell: host "{{domain}}"  #get the ip address of the the domain
+      register: outputofshellcommand # store the output of the shell command
+    - name: display the ip address
+      debug:
+        msg: The ip address of "{{domain}}" = "{{outputofshellcommand}}"

@@ -1,0 +1,28 @@
+---
+- name: Update web servers
+  hosts: web
+  become: true
+  # remote_user: ec2-user
+  tasks:
+  - name: Install apache
+    #ansible.builtin.yum:
+    yum:
+      name: httpd
+      state: latest
+    tags:
+    - install
+    notify:
+    - Start the server
+    
+  - name: copy file to server
+    # copy: src=/home/ansible/index.html dest=/var/www/html
+    copy:
+      src: index.html
+      dest: /var/www/html
+    tags:
+    - copy
+  handlers:
+  - name: Start the server
+    service:
+      name: httpd
+      state: started
